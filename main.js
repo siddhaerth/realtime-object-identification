@@ -1,43 +1,46 @@
-noseX="0";
-noseY="0";
-difference = 0;
-rightWristX=0;
-leftWristX=0;
+img ="";
+status = "";
+objects =[];
 
-function setup() {
-    video = createCapture(VIDEO);
-    video.size(550, 500);
-
-    canvas = createCanvas(500, 450);
-    canvas.position(560, 90);
-
-    poseNet = ml5.poseNet(video, modelLoaded);
-    poseNet.on('pose', gotPoses);
+function preload(){
+    img= loadImage('dog_cat.jpg');
 }
 
-function modelLoaded() {
-    console.log('PoseNet Is Initialized!')
+function setup(){
+    canvas = createCanvas(640,420);
+    canvas.center();
+    objectDetector = ml5.objectDetector('cocossd' , modelLoaded);
+    document.getElementById("status").innerHTML = "Status : Detecting Object";
 }
 
 function draw() {
-    background('#00FFFF');
+    image(img,0,0,640,420);
+if(status !=""){
+    for(s=0; s < objects.length; s++){
+       document.getElementById("status").innerHTML = "Status : Objects Detected";
 
-document.getElementById("square_side").innerHTML = "Width And Height of a Square will be = "  + difference +"px";
+        fill("#FF0000");
+        percent = floor(objects[s].confidence * 100);
+        text(objects[s].label + " " + percent + "%", objects[s].x+15, objects[s].y+15);
+        noFill();
+        stroke("#FF0000");
+        rect(objects[s].x, objects[s].y, objects[s].width, objects[s].height);
+    }
+}
+   
 
-    fill('#000080');
-    stroke('008080');
-    square(noseX,noseY,difference);
 }
 
-function gotPoses(results) {
-if (results.length > 0) {
+function modelLoaded(){
+    console.log("Model Loaded!")
+    status = true;
+    objectDetector.detect(img, gotResult);
+}
+function gotResult( error,results){
+    if (error){
+console.log(error);
+    }
     console.log(results);
-     noseX = results[0].pose.nose.x;
-     noseY = results[0].pose.nose.y;
-     console.log("noseX = " + noseX + "noseY" + noseY);
-     leftWristX = results[0].pose.leftWrist.x;
-     rightWristX = results[0].pose.rightWrist.x;
-     difference=floor(leftWristX - rightWristX);
-     console.log("leftWristX ="+leftWristX+"rightWristX"+rightWristX+"difference ="+difference);
- }
+    objects = results;
+
 }

@@ -1,27 +1,25 @@
-.heading{
-    font-size: 23px;
-    width: 100%;
-    margin: 0px;
-    box-shadow: 5px 5px 5px darkcyan;
-    color:darkblue;
-}
-.note{
-    font-size: 15px;
-    color: darkblue;
+body
+{
+    background-size: cover;
+    background-position: center;
 }
 
-.copy_right_footer{
-    position: fixed;
-    color: lightblue;
-    bottom: 0;
-    width: 100%;
-    background-color: darkblue;
-    line-height: 3;
-    text-align: center;
+canvas {
+    box-shadow: 10px 10px 10px darkcyan;
+    border-radius: 10px;
+    margin-top: 65px;
 }
 
-canvas{
-    border: 5px solid lightblue;
-    border-radius: 20px;
-    box-shadow: 5px 5px 5px darkcyan;
+
+.heading
+{
+font-size: 23px;
+width: 100%;
+margin: 0px;
 }
+
+#status
+{
+font-size: 18px;
+}
+
